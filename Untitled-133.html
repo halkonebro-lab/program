@@ -1,0 +1,2867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width,
+               initial-scale=1.0,
+               maximum-scale=1.0,
+               user-scalable=no">
+
+<meta name="theme-color" content="#080a0f">
+
+<title>Daily Missions Pro</title>
+
+<style>
+
+:root{
+    --bg:#080a0f;
+    --panel:#11141b;
+    --panel2:#171b24;
+    --border:#282e3a;
+    --text:#f5f7fb;
+    --muted:#8c95a5;
+
+    --purple:#7c3aed;
+    --purple2:#a855f7;
+
+    --green:#22c55e;
+    --red:#ef4444;
+    --yellow:#f59e0b;
+    --blue:#3b82f6;
+}
+
+*{
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+}
+
+html{
+    background:var(--bg);
+}
+
+body{
+    margin:0;
+    min-height:100vh;
+
+    color:var(--text);
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    background:
+        radial-gradient(
+            circle at 10% 0%,
+            #30105d 0,
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 100% 15%,
+            #102b55 0,
+            transparent 28%
+        ),
+        var(--bg);
+
+    overscroll-behavior:none;
+}
+
+button,
+input,
+select,
+textarea{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+    -webkit-user-select:none;
+    user-select:none;
+}
+
+.app{
+    width:min(1400px,94%);
+    margin:auto;
+    padding:
+        max(20px, env(safe-area-inset-top))
+        0
+        max(35px, env(safe-area-inset-bottom));
+}
+
+
+/* HEADER */
+
+header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.logo{
+    width:52px;
+    height:52px;
+
+    display:grid;
+    place-items:center;
+
+    flex-shrink:0;
+
+    border-radius:16px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--purple),
+            #4f46e5
+        );
+
+    font-size:25px;
+
+    box-shadow:
+        0 10px 30px #7c3aed55;
+}
+
+h1{
+    margin:0;
+    font-size:27px;
+    letter-spacing:-.5px;
+}
+
+.subtitle{
+    color:var(--muted);
+    margin:4px 0 0;
+    font-size:12px;
+}
+
+.level-box{
+    min-width:65px;
+
+    background:
+        rgba(17,20,27,.94);
+
+    border:1px solid var(--border);
+
+    padding:9px 14px;
+
+    border-radius:14px;
+
+    text-align:center;
+}
+
+.level-box small{
+    display:block;
+    color:var(--muted);
+    font-size:9px;
+}
+
+.level-box strong{
+    font-size:23px;
+}
+
+
+/* GLOBAL STATS */
+
+.stats{
+    display:grid;
+    grid-template-columns:
+        repeat(5,1fr);
+
+    gap:10px;
+
+    margin-bottom:15px;
+}
+
+.stat{
+    background:
+        linear-gradient(
+            145deg,
+            var(--panel),
+            #0d1016
+        );
+
+    border:1px solid var(--border);
+
+    border-radius:15px;
+
+    padding:13px;
+
+    min-width:0;
+}
+
+.stat-icon{
+    font-size:19px;
+}
+
+.stat-number{
+    font-size:23px;
+    font-weight:800;
+    margin-top:5px;
+}
+
+.stat-label{
+    color:var(--muted);
+    font-size:10px;
+    margin-top:2px;
+}
+
+
+/* MAIN */
+
+.main-grid{
+    display:grid;
+
+    grid-template-columns:
+        310px
+        minmax(0,1fr)
+        310px;
+
+    gap:15px;
+}
+
+
+/* CARD */
+
+.card{
+    background:
+        rgba(17,20,27,.94);
+
+    border:1px solid var(--border);
+
+    border-radius:18px;
+
+    padding:18px;
+
+    box-shadow:
+        0 15px 50px #0004;
+
+    backdrop-filter:
+        blur(10px);
+}
+
+.card-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:14px;
+}
+
+.card-title h2,
+.card-title h3{
+    margin:0;
+}
+
+
+/* CALENDAR */
+
+.calendar-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:14px;
+}
+
+.month-title{
+    font-size:19px;
+    font-weight:800;
+}
+
+.calendar-buttons{
+    display:flex;
+    gap:5px;
+}
+
+.calendar-buttons button{
+    width:35px;
+    height:35px;
+
+    border-radius:9px;
+
+    border:1px solid var(--border);
+
+    background:var(--panel2);
+
+    color:white;
+
+    transition:.15s;
+}
+
+.calendar-buttons button:active{
+    transform:scale(.92);
+    background:var(--purple);
+}
+
+.today-btn{
+    margin-top:10px;
+
+    width:100%;
+
+    border:1px solid var(--border);
+
+    background:var(--panel2);
+
+    color:white;
+
+    padding:10px;
+
+    border-radius:10px;
+}
+
+.today-btn:active{
+    background:var(--purple);
+}
+
+.weekdays{
+    display:grid;
+
+    grid-template-columns:
+        repeat(7,1fr);
+
+    gap:4px;
+
+    margin-bottom:5px;
+}
+
+.weekdays span{
+    text-align:center;
+
+    color:var(--muted);
+
+    font-size:9px;
+
+    font-weight:bold;
+}
+
+.calendar{
+    display:grid;
+
+    grid-template-columns:
+        repeat(7,1fr);
+
+    gap:5px;
+}
+
+.day{
+    min-height:43px;
+
+    border:1px solid transparent;
+
+    border-radius:9px;
+
+    background:#0e1117;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    position:relative;
+
+    color:#cbd0d9;
+
+    transition:.15s;
+}
+
+.day:active{
+    transform:scale(.94);
+}
+
+.day.empty{
+    background:transparent;
+}
+
+.day.selected{
+    background:
+        linear-gradient(
+            135deg,
+            var(--purple),
+            #4f46e5
+        );
+
+    color:white;
+}
+
+.day.today{
+    border-color:var(--purple2);
+}
+
+.day-number{
+    font-size:11px;
+    font-weight:bold;
+}
+
+.day-progress{
+    width:22px;
+    height:3px;
+
+    background:#272c37;
+
+    border-radius:10px;
+
+    margin-top:4px;
+
+    overflow:hidden;
+}
+
+.day-progress-fill{
+    height:100%;
+    background:var(--green);
+}
+
+
+/* SELECTED DAY */
+
+.day-heading{
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:10px;
+}
+
+.day-heading h2{
+    margin:0;
+
+    font-size:22px;
+}
+
+.day-heading p{
+    margin:4px 0 0;
+
+    color:var(--muted);
+
+    font-size:12px;
+}
+
+.daily-score{
+    text-align:right;
+}
+
+.daily-score strong{
+    font-size:27px;
+}
+
+.daily-score small{
+    display:block;
+    color:var(--muted);
+    font-size:10px;
+}
+
+
+/* PROGRESS */
+
+.progress-section{
+    margin:20px 0;
+}
+
+.progress-top{
+    display:flex;
+
+    justify-content:space-between;
+
+    color:var(--muted);
+
+    font-size:11px;
+
+    margin-bottom:7px;
+}
+
+.progress{
+    height:10px;
+
+    background:#252a35;
+
+    border-radius:20px;
+
+    overflow:hidden;
+}
+
+.progress-fill{
+    height:100%;
+
+    width:0;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--purple),
+            var(--purple2)
+        );
+
+    border-radius:20px;
+
+    transition:.4s;
+}
+
+
+/* MISSIONS */
+
+.missions{
+    max-height:540px;
+
+    overflow-y:auto;
+
+    scrollbar-width:thin;
+}
+
+.mission{
+    display:flex;
+
+    align-items:center;
+
+    gap:11px;
+
+    padding:13px 5px;
+
+    border-bottom:
+        1px solid #222732;
+}
+
+.mission:last-child{
+    border-bottom:0;
+}
+
+.checkbox{
+    width:21px;
+    height:21px;
+
+    flex-shrink:0;
+
+    accent-color:var(--purple);
+
+    cursor:pointer;
+}
+
+.mission-info{
+    flex:1;
+
+    min-width:0;
+}
+
+.mission-name{
+    font-weight:700;
+    font-size:13px;
+
+    word-break:break-word;
+}
+
+.mission.completed .mission-name{
+    text-decoration:line-through;
+    color:#626a78;
+}
+
+.mission-meta{
+    display:flex;
+
+    gap:6px;
+
+    margin-top:5px;
+}
+
+.badge{
+    font-size:8px;
+
+    padding:3px 6px;
+
+    border-radius:20px;
+}
+
+.high{
+    background:#ef444422;
+    color:#ff7373;
+}
+
+.medium{
+    background:#f59e0b22;
+    color:#ffc04a;
+}
+
+.low{
+    background:#22c55e22;
+    color:#5ce88a;
+}
+
+.delete{
+    border:0;
+
+    background:transparent;
+
+    color:#737b89;
+
+    font-size:16px;
+
+    padding:7px;
+}
+
+.delete:active{
+    color:var(--red);
+    transform:scale(.9);
+}
+
+
+/* ADD */
+
+.add-mission{
+    display:grid;
+
+    grid-template-columns:
+        1fr
+        100px
+        75px;
+
+    gap:6px;
+
+    margin-top:15px;
+}
+
+.input{
+    width:100%;
+
+    background:#0c0f15;
+
+    border:1px solid var(--border);
+
+    border-radius:10px;
+
+    color:white;
+
+    padding:11px;
+
+    outline:none;
+
+    min-width:0;
+}
+
+.input:focus{
+    border-color:var(--purple);
+}
+
+.add-btn{
+    border:0;
+
+    border-radius:10px;
+
+    color:white;
+
+    background:var(--purple);
+
+    font-weight:bold;
+}
+
+.add-btn:active{
+    transform:scale(.96);
+    background:#6d28d9;
+}
+
+
+/* SIDE */
+
+.side{
+    display:flex;
+
+    flex-direction:column;
+
+    gap:15px;
+}
+
+
+/* XP */
+
+.xp-big{
+    font-size:39px;
+    font-weight:900;
+}
+
+.xp-small{
+    color:var(--muted);
+    font-size:11px;
+}
+
+.level-progress{
+    margin-top:12px;
+}
+
+
+/* CHART */
+
+.chart{
+    height:145px;
+
+    display:flex;
+
+    align-items:end;
+
+    gap:6px;
+
+    margin-top:14px;
+}
+
+.chart-column{
+    flex:1;
+
+    height:100%;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:end;
+
+    align-items:center;
+
+    gap:5px;
+}
+
+.chart-bar{
+    width:100%;
+
+    max-width:27px;
+
+    min-height:3px;
+
+    border-radius:
+        7px 7px 3px 3px;
+
+    background:
+        linear-gradient(
+            180deg,
+            var(--purple2),
+            var(--purple)
+        );
+
+    transition:.4s;
+}
+
+.chart-label{
+    color:var(--muted);
+    font-size:8px;
+}
+
+
+/* MONTH */
+
+.month-stats{
+    display:grid;
+    gap:8px;
+}
+
+.month-row{
+    display:flex;
+
+    justify-content:space-between;
+
+    padding:9px 0;
+
+    border-bottom:
+        1px solid var(--border);
+
+    font-size:12px;
+}
+
+.month-row:last-child{
+    border-bottom:0;
+}
+
+.month-row span{
+    color:var(--muted);
+}
+
+
+/* ACHIEVEMENTS */
+
+.achievements{
+    display:grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap:7px;
+}
+
+.achievement{
+    background:#0e1117;
+
+    border:1px solid var(--border);
+
+    border-radius:10px;
+
+    padding:9px;
+}
+
+.achievement.locked{
+    opacity:.3;
+}
+
+.achievement-icon{
+    font-size:19px;
+}
+
+.achievement strong{
+    display:block;
+
+    font-size:10px;
+
+    margin-top:4px;
+}
+
+.achievement small{
+    color:var(--muted);
+
+    font-size:8px;
+}
+
+
+/* TIMER */
+
+.timer{
+    text-align:center;
+}
+
+.timer h3{
+    margin:0;
+}
+
+.timer-display{
+    font-size:40px;
+
+    font-weight:900;
+
+    letter-spacing:2px;
+
+    margin:9px 0 12px;
+}
+
+.timer-controls{
+    display:flex;
+
+    justify-content:center;
+
+    gap:6px;
+}
+
+.timer-controls button{
+    border:1px solid var(--border);
+
+    background:var(--panel2);
+
+    color:white;
+
+    border-radius:9px;
+
+    padding:8px 13px;
+}
+
+.timer-controls button:active{
+    background:var(--purple);
+
+    transform:scale(.94);
+}
+
+
+/* NOTES */
+
+.notes{
+    width:100%;
+
+    min-height:100px;
+
+    resize:vertical;
+
+    background:#0c0f15;
+
+    color:white;
+
+    border:1px solid var(--border);
+
+    border-radius:10px;
+
+    padding:11px;
+
+    outline:none;
+
+    font-size:13px;
+}
+
+.notes:focus{
+    border-color:var(--purple);
+}
+
+
+/* FOOTER */
+
+.footer{
+    text-align:center;
+
+    color:#626a78;
+
+    margin-top:22px;
+
+    font-size:10px;
+}
+
+
+/* TABLET */
+
+@media(max-width:1150px){
+
+    .main-grid{
+        grid-template-columns:
+            290px
+            1fr;
+    }
+
+    .side{
+        grid-column:1 / -1;
+
+        display:grid;
+
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .stats{
+        grid-template-columns:
+            repeat(3,1fr);
+    }
+}
+
+
+/* MOBILE */
+
+@media(max-width:800px){
+
+    .app{
+        width:94%;
+    }
+
+    header{
+        margin-bottom:15px;
+    }
+
+    .main-grid{
+        grid-template-columns:1fr;
+    }
+
+    .side{
+        grid-column:auto;
+
+        display:flex;
+    }
+
+    .stats{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .stat:last-child{
+        grid-column:span 2;
+    }
+
+    .missions{
+        max-height:none;
+    }
+}
+
+
+/* SMALL IPHONE */
+
+@media(max-width:550px){
+
+    .app{
+        width:94%;
+
+        padding-top:
+            max(
+                14px,
+                env(safe-area-inset-top)
+            );
+    }
+
+    h1{
+        font-size:22px;
+    }
+
+    .subtitle{
+        font-size:10px;
+    }
+
+    .logo{
+        width:45px;
+        height:45px;
+
+        border-radius:14px;
+
+        font-size:21px;
+    }
+
+    .level-box{
+        padding:8px 11px;
+    }
+
+    .stats{
+        gap:7px;
+    }
+
+    .stat{
+        padding:11px;
+    }
+
+    .stat-number{
+        font-size:21px;
+    }
+
+    .add-mission{
+        grid-template-columns:1fr;
+    }
+
+    .add-btn{
+        height:42px;
+    }
+
+    .day-heading h2{
+        font-size:20px;
+    }
+
+    .card{
+        padding:15px;
+        border-radius:16px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header>
+
+    <div class="brand">
+
+        <div class="logo">
+            🎯
+        </div>
+
+        <div>
+
+            <h1>
+                Daily Missions
+            </h1>
+
+            <p class="subtitle">
+                Build discipline. Complete missions. Level up.
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="level-box">
+
+        <small>LEVEL</small>
+
+        <strong id="level">
+            1
+        </strong>
+
+    </div>
+
+</header>
+
+<section class="stats">
+
+    <div class="stat">
+        <div class="stat-icon">🔥</div>
+        <div class="stat-number" id="streak">0</div>
+        <div class="stat-label">Day Streak</div>
+    </div>
+
+    <div class="stat">
+        <div class="stat-icon">⭐</div>
+        <div class="stat-number" id="totalXP">0</div>
+        <div class="stat-label">Total XP</div>
+    </div>
+
+    <div class="stat">
+        <div class="stat-icon">✅</div>
+        <div class="stat-number" id="completed">0</div>
+        <div class="stat-label">Completed</div>
+    </div>
+
+    <div class="stat">
+        <div class="stat-icon">💯</div>
+        <div class="stat-number" id="perfectDays">0</div>
+        <div class="stat-label">Perfect Days</div>
+    </div>
+
+    <div class="stat">
+        <div class="stat-icon">📅</div>
+        <div class="stat-number" id="activeDays">0</div>
+        <div class="stat-label">Active Days</div>
+    </div>
+
+</section>
+
+<div class="main-grid">
+
+<section class="card">
+
+    <div class="calendar-header">
+
+        <div
+            class="month-title"
+            id="monthTitle">
+        </div>
+
+        <div class="calendar-buttons">
+
+            <button onclick="changeMonth(-1)">
+                ‹
+            </button>
+
+            <button onclick="changeMonth(1)">
+                ›
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="weekdays">
+
+        <span>MON</span>
+        <span>TUE</span>
+        <span>WED</span>
+        <span>THU</span>
+        <span>FRI</span>
+        <span>SAT</span>
+        <span>SUN</span>
+
+    </div>
+
+    <div
+        class="calendar"
+        id="calendar">
+    </div>
+
+    <button
+        class="today-btn"
+        onclick="goToday()">
+
+        📍 Go to Today
+
+    </button>
+
+</section>
+
+<section class="card">
+
+    <div class="day-heading">
+
+        <div>
+
+            <h2 id="dayTitle">
+                Today's Missions
+            </h2>
+
+            <p id="selectedDate"></p>
+
+        </div>
+
+        <div class="daily-score">
+
+            <strong id="percentage">
+                0%
+            </strong>
+
+            <small>
+                completed
+            </small>
+
+        </div>
+
+    </div>
+
+    <div class="progress-section">
+
+        <div class="progress-top">
+
+            <span>
+                Daily Progress
+            </span>
+
+            <span id="dailyXP">
+                0 / 0 XP
+            </span>
+
+        </div>
+
+        <div class="progress">
+
+            <div
+                class="progress-fill"
+                id="progressFill">
+            </div>
+
+        </div>
+
+    </div>
+
+    <div
+        class="missions"
+        id="missions">
+    </div>
+
+    <div class="add-mission">
+
+        <input
+            class="input"
+            id="missionInput"
+            placeholder="Add mission..."
+            autocomplete="off"
+            onkeydown="handleEnter(event)"
+        >
+
+        <select
+            class="input"
+            id="priority">
+
+            <option value="low">
+                Low
+            </option>
+
+            <option value="medium">
+                Medium
+            </option>
+
+            <option value="high">
+                High
+            </option>
+
+        </select>
+
+        <button
+            class="add-btn"
+            onclick="addMission()">
+
+            + Add
+
+        </button>
+
+    </div>
+
+</section>
+
+<aside class="side">
+
+<div class="card">
+
+    <div class="card-title">
+
+        <h3>
+            ⭐ Experience
+        </h3>
+
+    </div>
+
+    <div
+        class="xp-big"
+        id="xpBig">
+        0 XP
+    </div>
+
+    <div
+        class="xp-small"
+        id="xpNext">
+        100 XP until next level
+    </div>
+
+    <div class="level-progress">
+
+        <div class="progress">
+
+            <div
+                class="progress-fill"
+                id="levelProgress">
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="card">
+
+    <div class="card-title">
+
+        <h3>
+            📈 Weekly Activity
+        </h3>
+
+    </div>
+
+    <div
+        class="chart"
+        id="chart">
+    </div>
+
+</div>
+
+<div class="card">
+
+    <div class="card-title">
+
+        <h3>
+            📊 Monthly Statistics
+        </h3>
+
+    </div>
+
+    <div class="month-stats">
+
+        <div class="month-row">
+            <span>Missions</span>
+            <strong id="monthMissions">0</strong>
+        </div>
+
+        <div class="month-row">
+            <span>Completed</span>
+            <strong id="monthCompleted">0</strong>
+        </div>
+
+        <div class="month-row">
+            <span>XP</span>
+            <strong id="monthXP">0</strong>
+        </div>
+
+        <div class="month-row">
+            <span>Average</span>
+            <strong id="monthAverage">0%</strong>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="card">
+
+    <div class="card-title">
+
+        <h3>
+            🏆 Achievements
+        </h3>
+
+    </div>
+
+    <div
+        class="achievements"
+        id="achievements">
+    </div>
+
+</div>
+
+<div class="card timer">
+
+    <h3>
+        ⏱️ Focus Timer
+    </h3>
+
+    <div
+        class="timer-display"
+        id="timer">
+        25:00
+    </div>
+
+    <div class="timer-controls">
+
+        <button onclick="startTimer()">▶</button>
+
+        <button onclick="pauseTimer()">⏸</button>
+
+        <button onclick="resetTimer()">↻</button>
+
+    </div>
+
+</div>
+
+<div class="card">
+
+    <div class="card-title">
+
+        <h3>
+            📝 Daily Notes
+        </h3>
+
+    </div>
+
+    <textarea
+        class="notes"
+        id="notes"
+        placeholder="Write notes for this date..."
+        oninput="saveNotes()">
+    </textarea>
+
+</div>
+
+</aside>
+
+</div>
+
+<div class="footer">
+    Daily Missions Pro • Local Storage • Offline
+</div>
+
+</div>
+
+<script>
+
+/* =========================
+DEFAULT ROUTINE
+========================= */
+
+const defaultMissions = {
+
+Monday:[
+    ["📚 Study school lessons — 60 min","high"],
+    ["🔐 TryHackMe — 60 min","high"],
+    ["💻 Learn PC / Windows — 30 min","medium"],
+    ["🏋️ Gym — Chest + Triceps","high"],
+    ["🎮 Gaming — max 2 hours","low"],
+    ["🌙 Prepare tomorrow","medium"]
+],
+
+Tuesday:[
+    ["📚 Homework / Revision — 60 min","high"],
+    ["🔐 Networking / Linux — 60 min","high"],
+    ["💻 Python — 30 min","medium"],
+    ["🏋️ Gym — Back + Biceps","high"],
+    ["🎮 Gaming — max 2 hours","low"],
+    ["🌙 Prepare tomorrow","medium"]
+],
+
+Wednesday:[
+    ["📚 School Revision — 60 min","high"],
+    ["🔐 Cybersecurity Practice — 60 min","high"],
+    ["💻 PC Maintenance — 20 min","low"],
+    ["🚶 Walk / Recovery","low"],
+    ["🎮 Gaming — max 2 hours","low"],
+    ["🌙 Prepare tomorrow","medium"]
+],
+
+Thursday:[
+    ["📚 Study — 60 min","high"],
+    ["🔐 TryHackMe — 60 min","high"],
+    ["💻 Linux / Python — 30 min","medium"],
+    ["🏋️ Gym — Density","high"],
+    ["🎮 Gaming — max 2 hours","low"],
+    ["🌙 Prepare tomorrow","medium"]
+],
+
+Friday:[
+    ["📚 Study — 60 min","high"],
+    ["🔐 Cybersecurity — 60 min","high"],
+    ["💻 PC Skill — 30 min","medium"],
+    ["🏋️ Gym — Biceps + Triceps","high"],
+    ["🎮 Gaming — max 2 hours","low"],
+    ["📊 Review the week","medium"]
+],
+
+Saturday:[
+    ["📚 Light Revision — 45 min","medium"],
+    ["🔐 Cybersecurity Project — 60 min","high"],
+    ["💻 Personal PC Project — 30 min","medium"],
+    ["🏋️ Gym — Legs","high"],
+    ["🎮 Gaming — max 3 hours","low"],
+    ["🧹 Organize PC","low"]
+],
+
+Sunday:[
+    ["📖 Plan next week — 30 min","high"],
+    ["🔐 Light Cybersecurity — 45 min","medium"],
+    ["🧹 Clean PC / Files","low"],
+    ["🧘 Recovery","low"],
+    ["🎮 Free Time","low"],
+    ["🌙 Prepare school week","high"]
+]
+
+};
+
+
+/* =========================
+STATE
+========================= */
+
+let data =
+JSON.parse(
+    localStorage.getItem(
+        "dailyMissionsCalendar"
+    )
+) || {};
+
+const now = new Date();
+
+let selectedDate = dateKey(now);
+
+let calendarDate =
+    new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        1
+    );
+
+
+/* =========================
+DATE
+========================= */
+
+function dateKey(date){
+
+    const year =
+        date.getFullYear();
+
+    const month =
+        String(
+            date.getMonth()+1
+        ).padStart(2,"0");
+
+    const day =
+        String(
+            date.getDate()
+        ).padStart(2,"0");
+
+    return `${year}-${month}-${day}`;
+}
+
+
+function parseDate(key){
+
+    const parts =
+        key.split("-")
+        .map(Number);
+
+    return new Date(
+        parts[0],
+        parts[1]-1,
+        parts[2]
+    );
+}
+
+
+function dayName(date){
+
+    return [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+    ][date.getDay()];
+}
+
+
+/* =========================
+SAVE
+========================= */
+
+function save(){
+
+    localStorage.setItem(
+        "dailyMissionsCalendar",
+        JSON.stringify(data)
+    );
+}
+
+
+/* =========================
+CREATE DAY
+========================= */
+
+function createDay(date){
+
+    const key =
+        dateKey(date);
+
+    if(data[key])
+        return;
+
+    const missions =
+        defaultMissions[
+            dayName(date)
+        ] || [];
+
+    data[key] =
+        missions.map(
+            (item,index)=>({
+
+                id:
+                    Date.now()+index,
+
+                name:
+                    item[0],
+
+                priority:
+                    item[1],
+
+                completed:false
+
+            })
+        );
+
+    save();
+}
+
+
+function getMissions(key){
+
+    if(!data[key]){
+
+        createDay(
+            parseDate(key)
+        );
+
+    }
+
+    return data[key];
+}
+
+
+/* =========================
+SELECT DATE
+========================= */
+
+function selectDate(key){
+
+    selectedDate = key;
+
+    const date =
+        parseDate(key);
+
+    calendarDate =
+        new Date(
+            date.getFullYear(),
+            date.getMonth(),
+            1
+        );
+
+    render();
+}
+
+
+/* =========================
+CALENDAR
+========================= */
+
+function renderCalendar(){
+
+    const calendar =
+        document.getElementById(
+            "calendar"
+        );
+
+    calendar.innerHTML="";
+
+    const year =
+        calendarDate.getFullYear();
+
+    const month =
+        calendarDate.getMonth();
+
+    document.getElementById(
+        "monthTitle"
+    ).textContent =
+        new Date(
+            year,
+            month,
+            1
+        ).toLocaleDateString(
+            undefined,
+            {
+                month:"long",
+                year:"numeric"
+            }
+        );
+
+    const first =
+        new Date(
+            year,
+            month,
+            1
+        );
+
+    let start =
+        first.getDay();
+
+    start =
+        start === 0
+        ? 6
+        : start-1;
+
+    const totalDays =
+        new Date(
+            year,
+            month+1,
+            0
+        ).getDate();
+
+    for(
+        let i=0;
+        i<start;
+        i++
+    ){
+
+        const empty =
+            document.createElement(
+                "div"
+            );
+
+        empty.className =
+            "day empty";
+
+        calendar.appendChild(
+            empty
+        );
+    }
+
+    for(
+        let day=1;
+        day<=totalDays;
+        day++
+    ){
+
+        const date =
+            new Date(
+                year,
+                month,
+                day
+            );
+
+        const key =
+            dateKey(date);
+
+        const missions =
+            data[key] || [];
+
+        const completed =
+            missions.filter(
+                m=>m.completed
+            ).length;
+
+        const percentage =
+            missions.length
+            ? completed /
+              missions.length *
+              100
+            : 0;
+
+        const div =
+            document.createElement(
+                "div"
+            );
+
+        div.className="day";
+
+        if(key === selectedDate)
+            div.classList.add("selected");
+
+        if(
+            key ===
+            dateKey(new Date())
+        )
+            div.classList.add("today");
+
+        div.innerHTML=`
+
+            <div class="day-number">
+                ${day}
+            </div>
+
+            ${
+                missions.length
+                ?
+                `
+                <div class="day-progress">
+
+                    <div
+                        class="day-progress-fill"
+                        style="width:${percentage}%">
+                    </div>
+
+                </div>
+                `
+                :
+                ""
+            }
+
+        `;
+
+        div.onclick =
+            ()=>selectDate(key);
+
+        calendar.appendChild(div);
+    }
+}
+
+
+/* =========================
+MONTH
+========================= */
+
+function changeMonth(amount){
+
+    calendarDate.setMonth(
+        calendarDate.getMonth()
+        + amount
+    );
+
+    renderCalendar();
+}
+
+
+function goToday(){
+
+    const today =
+        new Date();
+
+    selectedDate =
+        dateKey(today);
+
+    calendarDate =
+        new Date(
+            today.getFullYear(),
+            today.getMonth(),
+            1
+        );
+
+    render();
+}
+
+
+/* =========================
+MISSION TOGGLE
+========================= */
+
+function toggleMission(index){
+
+    const missions =
+        getMissions(
+            selectedDate
+        );
+
+    missions[index].completed =
+        !missions[index].completed;
+
+    save();
+
+    render();
+}
+
+
+/* =========================
+DELETE
+========================= */
+
+function deleteMission(index){
+
+    const missions =
+        getMissions(
+            selectedDate
+        );
+
+    missions.splice(index,1);
+
+    save();
+
+    render();
+}
+
+
+/* =========================
+ADD
+========================= */
+
+function addMission(){
+
+    const input =
+        document.getElementById(
+            "missionInput"
+        );
+
+    const priority =
+        document.getElementById(
+            "priority"
+        ).value;
+
+    const name =
+        input.value.trim();
+
+    if(!name){
+
+        input.focus();
+
+        return;
+    }
+
+    const missions =
+        getMissions(
+            selectedDate
+        );
+
+    missions.push({
+
+        id:Date.now(),
+
+        name:name,
+
+        priority:priority,
+
+        completed:false
+
+    });
+
+    input.value="";
+
+    save();
+
+    render();
+
+    input.focus();
+}
+
+
+function handleEnter(event){
+
+    if(event.key === "Enter")
+        addMission();
+}
+
+
+/* =========================
+XP
+========================= */
+
+function calculateXP(){
+
+    let xp=0;
+
+    Object.values(data)
+        .forEach(
+            missions=>{
+
+                if(
+                    !Array.isArray(
+                        missions
+                    )
+                )
+                    return;
+
+                missions.forEach(
+                    mission=>{
+
+                        if(
+                            mission.completed
+                        )
+                            xp+=10;
+
+                    }
+                );
+            }
+        );
+
+    return xp;
+}
+
+
+/* =========================
+COMPLETED
+========================= */
+
+function calculateCompleted(){
+
+    let total=0;
+
+    Object.values(data)
+        .forEach(
+            missions=>{
+
+                if(
+                    !Array.isArray(
+                        missions
+                    )
+                )
+                    return;
+
+                missions.forEach(
+                    mission=>{
+
+                        if(
+                            mission.completed
+                        )
+                            total++;
+
+                    }
+                );
+            }
+        );
+
+    return total;
+}
+
+
+/* =========================
+ACTIVE DAYS
+========================= */
+
+function calculateActiveDays(){
+
+    let total=0;
+
+    Object.values(data)
+        .forEach(
+            missions=>{
+
+                if(
+                    Array.isArray(missions)
+                    &&
+                    missions.some(
+                        m=>m.completed
+                    )
+                )
+                    total++;
+
+            }
+        );
+
+    return total;
+}
+
+
+/* =========================
+PERFECT DAYS
+========================= */
+
+function calculatePerfectDays(){
+
+    let total=0;
+
+    Object.values(data)
+        .forEach(
+            missions=>{
+
+                if(
+                    Array.isArray(missions)
+                    &&
+                    missions.length>0
+                    &&
+                    missions.every(
+                        m=>m.completed
+                    )
+                )
+                    total++;
+
+            }
+        );
+
+    return total;
+}
+
+
+/* =========================
+STREAK
+========================= */
+
+function calculateStreak(){
+
+    let streak=0;
+
+    const today =
+        new Date();
+
+    for(
+        let i=0;
+        i<365;
+        i++
+    ){
+
+        const date =
+            new Date(today);
+
+        date.setDate(
+            today.getDate()-i
+        );
+
+        const missions =
+            data[
+                dateKey(date)
+            ];
+
+        if(
+            missions &&
+            missions.length>0 &&
+            missions.every(
+                m=>m.completed
+            )
+        ){
+
+            streak++;
+
+        }else{
+
+            break;
+
+        }
+    }
+
+    return streak;
+}
+
+
+/* =========================
+LEVEL
+========================= */
+
+function calculateLevel(xp){
+
+    return Math.floor(
+        xp/100
+    )+1;
+}
+/* =========================
+RENDER MISSIONS
+========================= */
+
+function renderMissions(){
+
+    const container =
+        document.getElementById("missions");
+
+    container.innerHTML = "";
+
+    const missions =
+        getMissions(selectedDate);
+
+    if(!missions.length){
+
+        container.innerHTML = `
+            <div style="
+                text-align:center;
+                color:var(--muted);
+                padding:30px 10px;
+                font-size:13px;
+            ">
+                🎯 No missions for this day.<br>
+                Add one below!
+            </div>
+        `;
+
+        return;
+    }
+
+    missions.forEach((mission,index)=>{
+
+        const div =
+            document.createElement("div");
+
+        div.className =
+            "mission" +
+            (mission.completed
+                ? " completed"
+                : "");
+
+        div.innerHTML = `
+
+            <input
+                type="checkbox"
+                class="checkbox"
+                ${mission.completed ? "checked" : ""}
+                onchange="toggleMission(${index})"
+            >
+
+            <div class="mission-info">
+
+                <div class="mission-name">
+                    ${escapeHTML(mission.name)}
+                </div>
+
+                <div class="mission-meta">
+
+                    <span class="badge ${mission.priority}">
+                        ${mission.priority.toUpperCase()}
+                    </span>
+
+                    <span class="badge low">
+                        +10 XP
+                    </span>
+
+                </div>
+
+            </div>
+
+            <button
+                class="delete"
+                onclick="deleteMission(${index})"
+                title="Delete mission"
+            >
+                🗑️
+            </button>
+        `;
+
+        container.appendChild(div);
+
+    });
+}
+
+
+/* =========================
+ESCAPE HTML
+========================= */
+
+function escapeHTML(text){
+
+    const div =
+        document.createElement("div");
+
+    div.textContent = text;
+
+    return div.innerHTML;
+}
+
+
+/* =========================
+DAILY PROGRESS
+========================= */
+
+function renderDailyProgress(){
+
+    const missions =
+        getMissions(selectedDate);
+
+    const completed =
+        missions.filter(
+            m=>m.completed
+        ).length;
+
+    const total =
+        missions.length;
+
+    const percentage =
+        total
+        ? Math.round(
+            completed / total * 100
+        )
+        : 0;
+
+    const xp =
+        completed * 10;
+
+    const maxXP =
+        total * 10;
+
+    document.getElementById(
+        "percentage"
+    ).textContent =
+        percentage + "%";
+
+    document.getElementById(
+        "dailyXP"
+    ).textContent =
+        `${xp} / ${maxXP} XP`;
+
+    document.getElementById(
+        "progressFill"
+    ).style.width =
+        percentage + "%";
+
+    const date =
+        parseDate(selectedDate);
+
+    document.getElementById(
+        "dayTitle"
+    ).textContent =
+        selectedDate === dateKey(new Date())
+        ? "Today's Missions"
+        : date.toLocaleDateString(
+            undefined,
+            {
+                weekday:"long"
+            }
+        ) + "'s Missions";
+
+    document.getElementById(
+        "selectedDate"
+    ).textContent =
+        date.toLocaleDateString(
+            undefined,
+            {
+                day:"numeric",
+                month:"long",
+                year:"numeric"
+            }
+        );
+}
+
+
+/* =========================
+XP / LEVEL
+========================= */
+
+function renderXP(){
+
+    const xp =
+        calculateXP();
+
+    const level =
+        calculateLevel(xp);
+
+    const currentLevelXP =
+        xp % 100;
+
+    const remaining =
+        100 - currentLevelXP;
+
+    document.getElementById(
+        "level"
+    ).textContent =
+        level;
+
+    document.getElementById(
+        "totalXP"
+    ).textContent =
+        xp;
+
+    document.getElementById(
+        "xpBig"
+    ).textContent =
+        xp + " XP";
+
+    document.getElementById(
+        "xpNext"
+    ).textContent =
+        remaining === 100
+        ? "100 XP until next level"
+        : remaining + " XP until next level";
+
+    document.getElementById(
+        "levelProgress"
+    ).style.width =
+        currentLevelXP + "%";
+}
+
+
+/* =========================
+GLOBAL STATS
+========================= */
+
+function renderStats(){
+
+    document.getElementById(
+        "streak"
+    ).textContent =
+        calculateStreak();
+
+    document.getElementById(
+        "completed"
+    ).textContent =
+        calculateCompleted();
+
+    document.getElementById(
+        "perfectDays"
+    ).textContent =
+        calculatePerfectDays();
+
+    document.getElementById(
+        "activeDays"
+    ).textContent =
+        calculateActiveDays();
+}
+
+
+/* =========================
+MONTHLY STATISTICS
+========================= */
+
+function renderMonthStats(){
+
+    const year =
+        calendarDate.getFullYear();
+
+    const month =
+        calendarDate.getMonth();
+
+    let missions = 0;
+    let completed = 0;
+    let xp = 0;
+    let daysWithMissions = 0;
+
+    Object.entries(data)
+        .forEach(([key,dayMissions])=>{
+
+            const date =
+                parseDate(key);
+
+            if(
+                date.getFullYear() !== year ||
+                date.getMonth() !== month ||
+                !Array.isArray(dayMissions)
+            )
+                return;
+
+            missions += dayMissions.length;
+
+            const done =
+                dayMissions.filter(
+                    m=>m.completed
+                ).length;
+
+            completed += done;
+
+            xp += done * 10;
+
+            if(dayMissions.length)
+                daysWithMissions++;
+
+        });
+
+    const average =
+        missions
+        ? Math.round(
+            completed / missions * 100
+        )
+        : 0;
+
+    document.getElementById(
+        "monthMissions"
+    ).textContent =
+        missions;
+
+    document.getElementById(
+        "monthCompleted"
+    ).textContent =
+        completed;
+
+    document.getElementById(
+        "monthXP"
+    ).textContent =
+        xp;
+
+    document.getElementById(
+        "monthAverage"
+    ).textContent =
+        average + "%";
+}
+
+
+/* =========================
+WEEKLY CHART
+========================= */
+
+function renderChart(){
+
+    const container =
+        document.getElementById("chart");
+
+    container.innerHTML = "";
+
+    const selected =
+        parseDate(selectedDate);
+
+    const day =
+        selected.getDay();
+
+    const mondayOffset =
+        day === 0 ? -6 : 1 - day;
+
+    const monday =
+        new Date(selected);
+
+    monday.setDate(
+        selected.getDate() +
+        mondayOffset
+    );
+
+    const labels = [
+        "MON",
+        "TUE",
+        "WED",
+        "THU",
+        "FRI",
+        "SAT",
+        "SUN"
+    ];
+
+    for(let i=0;i<7;i++){
+
+        const date =
+            new Date(monday);
+
+        date.setDate(
+            monday.getDate()+i
+        );
+
+        const key =
+            dateKey(date);
+
+        const missions =
+            data[key] || [];
+
+        const completed =
+            missions.filter(
+                m=>m.completed
+            ).length;
+
+        const percentage =
+            missions.length
+            ? completed / missions.length * 100
+            : 0;
+
+        const column =
+            document.createElement("div");
+
+        column.className =
+            "chart-column";
+
+        column.innerHTML = `
+
+            <div
+                class="chart-bar"
+                style="height:${Math.max(
+                    percentage,
+                    missions.length ? 3 : 0
+                )}%"
+                title="${Math.round(percentage)}%"
+            ></div>
+
+            <div class="chart-label">
+                ${labels[i]}
+            </div>
+
+        `;
+
+        container.appendChild(column);
+    }
+}
+
+
+/* =========================
+ACHIEVEMENTS
+========================= */
+
+function renderAchievements(){
+
+    const container =
+        document.getElementById(
+            "achievements"
+        );
+
+    const completed =
+        calculateCompleted();
+
+    const perfect =
+        calculatePerfectDays();
+
+    const streak =
+        calculateStreak();
+
+    const xp =
+        calculateXP();
+
+    const achievements = [
+
+        {
+            icon:"🎯",
+            name:"First Mission",
+            description:"Complete 1 mission",
+            unlocked:completed >= 1
+        },
+
+        {
+            icon:"🔥",
+            name:"3 Day Streak",
+            description:"Complete 3 perfect days",
+            unlocked:streak >= 3
+        },
+
+        {
+            icon:"💯",
+            name:"Perfect Day",
+            description:"Finish every mission",
+            unlocked:perfect >= 1
+        },
+
+        {
+            icon:"⭐",
+            name:"100 XP",
+            description:"Earn 100 XP",
+            unlocked:xp >= 100
+        },
+
+        {
+            icon:"🚀",
+            name:"500 XP",
+            description:"Earn 500 XP",
+            unlocked:xp >= 500
+        },
+
+        {
+            icon:"🏆",
+            name:"100 Missions",
+            description:"Complete 100 missions",
+            unlocked:completed >= 100
+        }
+
+    ];
+
+    container.innerHTML = "";
+
+    achievements.forEach(item=>{
+
+        const div =
+            document.createElement("div");
+
+        div.className =
+            "achievement" +
+            (
+                item.unlocked
+                ? ""
+                : " locked"
+            );
+
+        div.innerHTML = `
+
+            <div class="achievement-icon">
+                ${item.icon}
+            </div>
+
+            <strong>
+                ${item.name}
+            </strong>
+
+            <small>
+                ${item.description}
+            </small>
+
+        `;
+
+        container.appendChild(div);
+
+    });
+}
+
+
+/* =========================
+NOTES
+========================= */
+
+function loadNotes(){
+
+    const notes =
+        document.getElementById(
+            "notes"
+        );
+
+    notes.value =
+        localStorage.getItem(
+            "dailyNotes_" +
+            selectedDate
+        ) || "";
+}
+
+
+function saveNotes(){
+
+    const notes =
+        document.getElementById(
+            "notes"
+        ).value;
+
+    localStorage.setItem(
+        "dailyNotes_" +
+        selectedDate,
+        notes
+    );
+}
+
+
+/* =========================
+FOCUS TIMER
+========================= */
+
+let timerSeconds = 25 * 60;
+
+let timerInterval = null;
+
+
+function updateTimer(){
+
+    const minutes =
+        Math.floor(
+            timerSeconds / 60
+        );
+
+    const seconds =
+        timerSeconds % 60;
+
+    document.getElementById(
+        "timer"
+    ).textContent =
+        String(minutes).padStart(2,"0")
+        + ":" +
+        String(seconds).padStart(2,"0");
+}
+
+
+function startTimer(){
+
+    if(timerInterval)
+        return;
+
+    timerInterval =
+        setInterval(()=>{
+
+            if(timerSeconds <= 0){
+
+                clearInterval(
+                    timerInterval
+                );
+
+                timerInterval = null;
+
+                alert(
+                    "🎯 Focus session complete!"
+                );
+
+                return;
+            }
+
+            timerSeconds--;
+
+            updateTimer();
+
+        },1000);
+}
+
+
+function pauseTimer(){
+
+    if(timerInterval){
+
+        clearInterval(
+            timerInterval
+        );
+
+        timerInterval = null;
+    }
+}
+
+
+function resetTimer(){
+
+    pauseTimer();
+
+    timerSeconds =
+        25 * 60;
+
+    updateTimer();
+}
+
+
+/* =========================
+RENDER ALL
+========================= */
+
+function render(){
+
+    createDay(
+        parseDate(selectedDate)
+    );
+
+    renderCalendar();
+
+    renderMissions();
+
+    renderDailyProgress();
+
+    renderXP();
+
+    renderStats();
+
+    renderMonthStats();
+
+    renderChart();
+
+    renderAchievements();
+
+    loadNotes();
+
+    updateTimer();
+}
+
+
+/* =========================
+INITIALIZE
+========================= */
+
+createDay(now);
+
+render();
+
+
+/* =========================
+AUTO SAVE BEFORE LEAVING
+========================= */
+
+window.addEventListener(
+    "beforeunload",
+    save
+);
+
+
+/* =========================
+KEYBOARD SHORTCUT
+========================= */
+
+document.addEventListener(
+    "keydown",
+    event=>{
+
+        if(
+            event.key === "/" &&
+            document.activeElement.tagName !== "INPUT" &&
+            document.activeElement.tagName !== "TEXTAREA"
+        ){
+
+            event.preventDefault();
+
+            document.getElementById(
+                "missionInput"
+            ).focus();
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
